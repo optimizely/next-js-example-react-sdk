@@ -1,13 +1,10 @@
 import React from "react";
 
 import {
-  createInstance,
   enums,
-  OptimizelyProvider,
-  ReactSDKClient,
   setLogLevel,
 } from "@optimizely/react-sdk";
-import OptimizelySSR from "../optimizely/optimizely_ssr";
+import OptimizelySSR from "./optimizely_ssr";
 
 const isBrowser: boolean = typeof window !== "undefined";
 

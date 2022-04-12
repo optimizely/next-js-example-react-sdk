@@ -1,7 +1,7 @@
 import { useDecision } from "@optimizely/react-sdk";
 
 import { getDatafile } from "../optimizely/datafile_provider";
-import { WithOptimizely } from "../optimizely/withOptimizely";
+import { WithOptimizely } from "../optimizely/with_optimizely";
 import DefaultProductsList from "../components/default_products_list";
 import SortedProductsList from "../components/sorted_products_list";
 
