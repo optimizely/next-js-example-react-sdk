@@ -6,14 +6,24 @@ import {
   setLogLevel,
 } from "@optimizely/react-sdk";
 import type { AppProps } from "next/app";
+import { getDatafile } from "../optimizely/datafile_provider";
 
 let optimizely: ReactSDKClient | null = null;
+const isBrowser: boolean = typeof window !== "undefined";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  let sdkOpts: {
+    sdkKey?: string;
+    datafile?: object;
+  } = {};
+
   if (!optimizely) {
-    optimizely = createInstance({
-      sdkKey: process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY,
-    });
+    if (isBrowser) {
+      sdkOpts.sdkKey = process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY;
+    } else {
+      sdkOpts.datafile = pageProps.datafile; // or import datafile here
+    }
+    optimizely = createInstance(sdkOpts);
   }
 
   setLogLevel(enums.LOG_LEVEL.ERROR);
@@ -27,10 +37,23 @@ function MyApp({ Component, pageProps }: AppProps) {
         id: "123",
         attributes: {},
       }}
+      isServerSide={!isBrowser}
     >
       <Component {...modifiedProps} />
     </OptimizelyProvider>
   );
-}
+};
 
 export default MyApp;
+
+MyApp.getInitialProps = async ({}) => {
+  if (!isBrowser) {
+    const datafile = await getDatafile();
+    return {
+      pageProps: {
+        datafile,
+      },
+    };
+  } else return {};
+};
+
