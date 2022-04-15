@@ -1,11 +1,15 @@
 const DefaultProductsList = () => {
-  const numbers = [3, 1, 2, 5, 4];
+  const products = [
+    "1. Awesome Shoes ($49.99)",
+    "2. Best Shirt ($69.99)",
+    "3. Cool Socks ($9.99)",
+  ];
 
   return (
     <>
-      <h3>I am Default list</h3>
-      {numbers.map((num) => (
-        <li>item-{num}</li>
+      <h3>Products sorted alphabetically</h3>
+      {products.map((product) => (
+        <li>{product}</li>
       ))}
     </>
   );

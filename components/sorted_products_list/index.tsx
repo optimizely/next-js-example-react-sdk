@@ -1,14 +1,18 @@
-const SortedProductsList = () => {
-  const numbers = [1, 2, 3, 4, 5];
+const PopularProductsList = () => {
+  const products = [
+    "1. Best Shirt ($69.99)",
+    "2. Awesome Shoes ($49.99)",
+    "3. Cool Socks ($9.99)",
+  ];
 
   return (
     <>
-      <h3>I am Sorted list</h3>
-      {numbers.map((num) => (
-        <li>item-{num}</li>
+      <h3>Products (sorted by: Popular first)</h3>
+      {products.map((product) => (
+        <li>{product}</li>
       ))}
     </>
   );
 };
 
-export default SortedProductsList;
+export default PopularProductsList;
