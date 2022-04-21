@@ -15,6 +15,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   let sdkOpts: {
     sdkKey?: string;
     datafile?: object;
+    datafileOptions?: {
+      autoUpdate?: boolean;
+      updateInterval?: number;
+    };
   } = {};
 
   if (!optimizely) {
@@ -22,6 +26,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       sdkOpts.sdkKey = process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY;
     } else {
       sdkOpts.datafile = pageProps.datafile; // or import datafile here
+      sdkOpts.sdkKey = process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY;
+      sdkOpts.datafileOptions = {
+        autoUpdate: true,
+        updateInterval: 5000,
+      };
     }
     optimizely = createInstance(sdkOpts);
   }
@@ -56,4 +65,3 @@ MyApp.getInitialProps = async ({}) => {
     };
   } else return {};
 };
-
