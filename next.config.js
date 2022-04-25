@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+ const withOptimizely = require('./scripts/fetch_optimizely_datafile');
 
-module.exports = nextConfig
+module.exports = withOptimizely({
+  reactStrictMode: true,
+})

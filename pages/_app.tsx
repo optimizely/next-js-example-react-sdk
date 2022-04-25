@@ -7,6 +7,8 @@ import {
 } from "@optimizely/react-sdk";
 import type { AppProps } from "next/app";
 import { getDatafile } from "../optimizely/datafile_provider";
+import optimizelyDatafile from '../lib/optimizely/datafile.json'
+
 
 let optimizely: ReactSDKClient | null = null;
 const isBrowser: boolean = typeof window !== "undefined";
@@ -57,10 +59,9 @@ export default MyApp;
 
 MyApp.getInitialProps = async ({}) => {
   if (!isBrowser) {
-    const datafile = await getDatafile();
     return {
       pageProps: {
-        datafile,
+        datafile : optimizelyDatafile,
       },
     };
   } else return {};
