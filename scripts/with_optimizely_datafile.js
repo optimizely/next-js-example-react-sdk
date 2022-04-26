@@ -16,7 +16,7 @@ async function fetchDatafile() {
   console.log(`Optimizely Datafile fetched successfully`);
 }
 
-function withOptimizely(nextConfig = {}) {
+function withOptimizelyDatafile(nextConfig = {}) {
   return {
     ... nextConfig,
     // Not actually overwriting rewrites. Just using the async function to fetch optimizely datafile.
@@ -27,4 +27,4 @@ function withOptimizely(nextConfig = {}) {
   }
 }
 
-module.exports = withOptimizely;
+module.exports = withOptimizelyDatafile;

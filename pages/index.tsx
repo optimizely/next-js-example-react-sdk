@@ -1,17 +1,34 @@
 import { useDecision } from "@optimizely/react-sdk";
-import DefaultProductsList from "../components/default_products_list";
-import PopularProductsList from "../components/sorted_products_list";
+ 
+const productsListPopularFirst = [
+  "Best Shirt ($69.99)",
+  "Awesome Shoes ($49.99)",
+  "Cool Socks ($9.99)",
+];
+
+const productsListAlphabetical = [
+  "Awesome Shoes ($49.99)",
+  "Best Shirt ($69.99)",
+  "Cool Socks ($9.99)",
+];
 
 const Home = () => {
   const [decision] = useDecision("product_sort");
+  
+  let sortedBy = 'Alphabetical order';
+  let products = productsListAlphabetical;
+  if (decision.variables.sort_method === "popular_first") {
+    sortedBy = 'Popularity';
+    products = productsListPopularFirst;
+  }
+
   return (
     <div>
-      <h2>Welcome to optimizely next.js </h2>
-      {decision.variables.sort_method == "popular_first" ? (
-        <PopularProductsList />
-      ) : (
-        <DefaultProductsList />
-      )}
+      <h2>Optimizely Sample Application</h2>
+      <h4>Products (Sorted by {sortedBy})</h4>
+      <ol>
+        { products.map(p => <li key={p}>{p}</li>) }
+      </ol>
     </div>
   );
 };

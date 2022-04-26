@@ -5,64 +5,31 @@ import {
   ReactSDKClient,
   setLogLevel,
 } from "@optimizely/react-sdk";
-import type { AppProps } from "next/app";
-import { getDatafile } from "../optimizely/datafile_provider";
+import { AppProps } from "next/app";
 import optimizelyDatafile from '../lib/optimizely/datafile.json'
 
+setLogLevel(enums.LOG_LEVEL.ERROR);
 
-let optimizely: ReactSDKClient | null = null;
-const isBrowser: boolean = typeof window !== "undefined";
+const optimizely: ReactSDKClient = createInstance({
+  datafile: optimizelyDatafile,
+  sdkKey: process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY,
+  datafileOptions: {
+    autoUpdate: true,
+    updateInterval: 60000,
+  }
+});
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  let sdkOpts: {
-    sdkKey?: string;
-    datafile?: object;
-    datafileOptions?: {
-      autoUpdate?: boolean;
-      updateInterval?: number;
-    };
-  } = {};
-
-  if (!optimizely) {
-    if (isBrowser) {
-      sdkOpts.sdkKey = process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY;
-    } else {
-      sdkOpts.datafile = pageProps.datafile; // or import datafile here
-      sdkOpts.sdkKey = process.env.NEXT_PUBLIC_OPTIMIZELY_SDK_KEY;
-      sdkOpts.datafileOptions = {
-        autoUpdate: true,
-        updateInterval: 5000,
-      };
-    }
-    optimizely = createInstance(sdkOpts);
-  }
-
-  setLogLevel(enums.LOG_LEVEL.ERROR);
-
-  const modifiedProps = { ...pageProps, optimizely };
-
   return (
     <OptimizelyProvider
       optimizely={optimizely}
       user={{
-        id: "123",
-        attributes: {},
+        id: "USER_ID_HERE",
       }}
-      isServerSide={!isBrowser}
     >
-      <Component {...modifiedProps} />
+      <Component {...pageProps} />
     </OptimizelyProvider>
   );
 };
 
 export default MyApp;
-
-MyApp.getInitialProps = async ({}) => {
-  if (!isBrowser) {
-    return {
-      pageProps: {
-        datafile : optimizelyDatafile,
-      },
-    };
-  } else return {};
-};
